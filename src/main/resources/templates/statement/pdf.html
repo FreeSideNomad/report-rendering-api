@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Statement Report</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1in;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            max-width: 150px;
+        }
+
+        .statement-info {
+            margin-bottom: 20px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+        }
+
+        .account {
+            page-break-inside: avoid;
+            margin-bottom: 30px;
+            border: 1px solid #000;
+            padding: 15px;
+        }
+
+        .account-header {
+            background-color: #f5f5f5;
+            padding: 10px;
+            margin: -15px -15px 15px -15px;
+            border-bottom: 1px solid #000;
+        }
+
+        .balance {
+            font-weight: bold;
+            margin: 10px 0;
+            background-color: #f0f0f0;
+            padding: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            page-break-inside: auto;
+        }
+
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 4px;
+            text-align: left;
+            font-size: 10px;
+        }
+
+        th {
+            background-color: #e0e0e0;
+            font-weight: bold;
+            page-break-after: avoid;
+        }
+
+        .credit {
+            color: #006400;
+        }
+
+        .debit {
+            color: #8B0000;
+        }
+
+        .totals {
+            margin-top: 20px;
+            font-weight: bold;
+            border: 2px solid #000;
+            padding: 10px;
+            background-color: #f5f5f5;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <img alt="RBC Logo" class="logo" src="/images/rbc-logo.png"/>
+    <h1>Account Statement</h1>
+</div>
+
+<div class="statement-info">
+    <p><strong>Statement Period:</strong> <span th:text="${#temporals.format(model.startDate, 'yyyy-MM-dd')}"></span>
+        to <span th:text="${#temporals.format(model.endDate, 'yyyy-MM-dd')}"></span></p>
+</div>
+
+<div class="account" th:each="account, accountStat : ${model.accounts}">
+    <div class="page-break" th:if="${accountStat.index > 0}"></div>
+
+    <div class="account-header">
+        <h3 th:text="${account.accountName}">Account Name</h3>
+        <p><strong>Account Number:</strong> <span th:text="${account.accountNumber}">000000000</span></p>
+        <p><strong>Transit Number:</strong> <span th:text="${account.transitNumber}">00000</span></p>
+        <p><strong>Account Type:</strong> <span th:text="${account.accountType}">Chequing</span></p>
+    </div>
+
+    <div class="balance">
+        <p><strong>Opening Balance: $<span th:text="${#numbers.formatDecimal(account.openingBalance, 0, 2)}">0.00</span></strong>
+        </p>
+        <p><strong>Closing Balance: $<span th:text="${#numbers.formatDecimal(account.closingBalance, 0, 2)}">0.00</span></strong>
+        </p>
+    </div>
+
+    <h4>Transactions</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Action Date</th>
+            <th>Value Date</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Credit</th>
+            <th>Debit</th>
+            <th>Balance</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="transaction : ${account.transactions}">
+            <td th:text="${#temporals.format(transaction.actionDate, 'yyyy-MM-dd')}">2024-01-01</td>
+            <td th:text="${#temporals.format(transaction.valueDate, 'yyyy-MM-dd')}">2024-01-01</td>
+            <td th:text="${transaction.description}">Description</td>
+            <td th:text="${transaction.transactionType}">Type</td>
+            <td class="credit"
+                th:if="${transaction.creditAmount != null}"
+                th:text="'$' + ${#numbers.formatDecimal(transaction.creditAmount, 0, 2)}">$0.00
+            </td>
+            <td th:unless="${transaction.creditAmount != null}"></td>
+            <td class="debit"
+                th:if="${transaction.debitAmount != null}"
+                th:text="'$' + ${#numbers.formatDecimal(transaction.debitAmount, 0, 2)}">$0.00
+            </td>
+            <td th:unless="${transaction.debitAmount != null}"></td>
+            <td th:text="'$' + ${#numbers.formatDecimal(transaction.balance, 0, 2)}">$0.00</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="totals">
+    <p><strong>Total Opening Balance: $<span
+            th:text="${#numbers.formatDecimal(model.totalOpeningBalance, 0, 2)}">0.00</span></strong></p>
+    <p><strong>Total Closing Balance: $<span
+            th:text="${#numbers.formatDecimal(model.totalClosingBalance, 0, 2)}">0.00</span></strong></p>
+</div>
+</body>
+</html>

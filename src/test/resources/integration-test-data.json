@@ -1,0 +1,129 @@
+{
+  "startDate": "2023-01-01",
+  "endDate": "2023-01-31",
+  "accounts": [
+    {
+      "accountName": "John Smith Checking Account",
+      "transitNumber": "00001",
+      "accountNumber": "1234567890",
+      "accountType": "Checking",
+      "transactions": [
+        {
+          "actionDate": "2023-01-02",
+          "valueDate": "2023-01-02",
+          "transactionType": "Deposit",
+          "description": "Salary Deposit",
+          "creditAmount": 5000.00,
+          "debitAmount": null,
+          "balance": 7000.00
+        },
+        {
+          "actionDate": "2023-01-03",
+          "valueDate": "2023-01-03",
+          "transactionType": "Purchase",
+          "description": "Grocery Store",
+          "creditAmount": null,
+          "debitAmount": 125.50,
+          "balance": 6874.50
+        },
+        {
+          "actionDate": "2023-01-05",
+          "valueDate": "2023-01-05",
+          "transactionType": "Purchase",
+          "description": "Gas Station",
+          "creditAmount": null,
+          "debitAmount": 75.25,
+          "balance": 6799.25
+        },
+        {
+          "actionDate": "2023-01-10",
+          "valueDate": "2023-01-10",
+          "transactionType": "Transfer",
+          "description": "Online Transfer",
+          "creditAmount": null,
+          "debitAmount": 1000.00,
+          "balance": 5799.25
+        },
+        {
+          "actionDate": "2023-01-15",
+          "valueDate": "2023-01-15",
+          "transactionType": "Interest",
+          "description": "Interest Payment",
+          "creditAmount": 15.75,
+          "debitAmount": null,
+          "balance": 5815.00
+        }
+      ]
+    },
+    {
+      "accountName": "John Smith Savings Account",
+      "transitNumber": "00001",
+      "accountNumber": "0987654321",
+      "accountType": "Savings",
+      "transactions": [
+        {
+          "actionDate": "2023-01-01",
+          "valueDate": "2023-01-01",
+          "transactionType": "Balance",
+          "description": "Opening Balance",
+          "creditAmount": null,
+          "debitAmount": null,
+          "balance": 10000.00
+        },
+        {
+          "actionDate": "2023-01-15",
+          "valueDate": "2023-01-15",
+          "transactionType": "Interest",
+          "description": "Interest Payment",
+          "creditAmount": 125.75,
+          "debitAmount": null,
+          "balance": 10125.75
+        },
+        {
+          "actionDate": "2023-01-20",
+          "valueDate": "2023-01-20",
+          "transactionType": "Transfer",
+          "description": "Transfer to Checking",
+          "creditAmount": null,
+          "debitAmount": 500.00,
+          "balance": 9625.75
+        }
+      ]
+    },
+    {
+      "accountName": "Smith Family Credit Card",
+      "transitNumber": "00002",
+      "accountNumber": "4111111111111111",
+      "accountType": "Credit Card",
+      "transactions": [
+        {
+          "actionDate": "2023-01-03",
+          "valueDate": "2023-01-03",
+          "transactionType": "Purchase",
+          "description": "Online Purchase",
+          "creditAmount": null,
+          "debitAmount": 299.99,
+          "balance": -299.99
+        },
+        {
+          "actionDate": "2023-01-07",
+          "valueDate": "2023-01-07",
+          "transactionType": "Purchase",
+          "description": "Restaurant",
+          "creditAmount": null,
+          "debitAmount": 75.50,
+          "balance": -375.49
+        },
+        {
+          "actionDate": "2023-01-18",
+          "valueDate": "2023-01-18",
+          "transactionType": "Payment",
+          "description": "Payment Received",
+          "creditAmount": 200.00,
+          "debitAmount": null,
+          "balance": -175.49
+        }
+      ]
+    }
+  ]
+}

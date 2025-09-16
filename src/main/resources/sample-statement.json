@@ -1,0 +1,309 @@
+{
+  "startDate": "2024-01-01",
+  "endDate": "2024-01-31",
+  "accounts": [
+    {
+      "accountName": "John Doe Chequing Account",
+      "transitNumber": "00001",
+      "accountNumber": "1234567890",
+      "accountType": "Chequing",
+      "transactions": [
+        {
+          "actionDate": "2024-01-02",
+          "valueDate": "2024-01-02",
+          "transactionType": "Deposit",
+          "description": "Direct Deposit - Salary",
+          "creditAmount": 3500.00,
+          "debitAmount": null,
+          "balance": 5500.00
+        },
+        {
+          "actionDate": "2024-01-03",
+          "valueDate": "2024-01-03",
+          "transactionType": "Withdrawal",
+          "description": "ATM Withdrawal",
+          "creditAmount": null,
+          "debitAmount": 200.00,
+          "balance": 5300.00
+        },
+        {
+          "actionDate": "2024-01-05",
+          "valueDate": "2024-01-05",
+          "transactionType": "Payment",
+          "description": "Online Bill Payment - Utilities",
+          "creditAmount": null,
+          "debitAmount": 150.75,
+          "balance": 5149.25
+        },
+        {
+          "actionDate": "2024-01-08",
+          "valueDate": "2024-01-08",
+          "transactionType": "Purchase",
+          "description": "Grocery Store - Debit Card",
+          "creditAmount": null,
+          "debitAmount": 89.45,
+          "balance": 5059.80
+        },
+        {
+          "actionDate": "2024-01-10",
+          "valueDate": "2024-01-10",
+          "transactionType": "Deposit",
+          "description": "Cheque Deposit",
+          "creditAmount": 500.00,
+          "debitAmount": null,
+          "balance": 5559.80
+        },
+        {
+          "actionDate": "2024-01-12",
+          "valueDate": "2024-01-12",
+          "transactionType": "Payment",
+          "description": "Mortgage Payment",
+          "creditAmount": null,
+          "debitAmount": 1200.00,
+          "balance": 4359.80
+        },
+        {
+          "actionDate": "2024-01-15",
+          "valueDate": "2024-01-15",
+          "transactionType": "Fee",
+          "description": "Monthly Account Fee",
+          "creditAmount": null,
+          "debitAmount": 12.95,
+          "balance": 4346.85
+        },
+        {
+          "actionDate": "2024-01-16",
+          "valueDate": "2024-01-16",
+          "transactionType": "Deposit",
+          "description": "Direct Deposit - Salary",
+          "creditAmount": 3500.00,
+          "debitAmount": null,
+          "balance": 7846.85
+        },
+        {
+          "actionDate": "2024-01-18",
+          "valueDate": "2024-01-18",
+          "transactionType": "Purchase",
+          "description": "Gas Station",
+          "creditAmount": null,
+          "debitAmount": 65.30,
+          "balance": 7781.55
+        },
+        {
+          "actionDate": "2024-01-20",
+          "valueDate": "2024-01-20",
+          "transactionType": "Transfer",
+          "description": "Transfer to Savings",
+          "creditAmount": null,
+          "debitAmount": 1000.00,
+          "balance": 6781.55
+        },
+        {
+          "actionDate": "2024-01-22",
+          "valueDate": "2024-01-22",
+          "transactionType": "Purchase",
+          "description": "Restaurant",
+          "creditAmount": null,
+          "debitAmount": 45.60,
+          "balance": 6735.95
+        },
+        {
+          "actionDate": "2024-01-24",
+          "valueDate": "2024-01-24",
+          "transactionType": "Payment",
+          "description": "Credit Card Payment",
+          "creditAmount": null,
+          "debitAmount": 250.00,
+          "balance": 6485.95
+        },
+        {
+          "actionDate": "2024-01-25",
+          "valueDate": "2024-01-25",
+          "transactionType": "Purchase",
+          "description": "Online Shopping",
+          "creditAmount": null,
+          "debitAmount": 129.99,
+          "balance": 6355.96
+        },
+        {
+          "actionDate": "2024-01-26",
+          "valueDate": "2024-01-26",
+          "transactionType": "Deposit",
+          "description": "Refund",
+          "creditAmount": 25.50,
+          "debitAmount": null,
+          "balance": 6381.46
+        },
+        {
+          "actionDate": "2024-01-28",
+          "valueDate": "2024-01-28",
+          "transactionType": "Purchase",
+          "description": "Pharmacy",
+          "creditAmount": null,
+          "debitAmount": 32.75,
+          "balance": 6348.71
+        },
+        {
+          "actionDate": "2024-01-29",
+          "valueDate": "2024-01-29",
+          "transactionType": "Withdrawal",
+          "description": "ATM Withdrawal",
+          "creditAmount": null,
+          "debitAmount": 100.00,
+          "balance": 6248.71
+        },
+        {
+          "actionDate": "2024-01-30",
+          "valueDate": "2024-01-30",
+          "transactionType": "Payment",
+          "description": "Insurance Payment",
+          "creditAmount": null,
+          "debitAmount": 180.25,
+          "balance": 6068.46
+        }
+      ]
+    },
+    {
+      "accountName": "Jane Doe Savings Account",
+      "transitNumber": "00001",
+      "accountNumber": "0987654321",
+      "accountType": "Savings",
+      "transactions": [
+        {
+          "actionDate": "2024-01-01",
+          "valueDate": "2024-01-01",
+          "transactionType": "Interest",
+          "description": "Monthly Interest",
+          "creditAmount": 15.25,
+          "debitAmount": null,
+          "balance": 10015.25
+        },
+        {
+          "actionDate": "2024-01-20",
+          "valueDate": "2024-01-20",
+          "transactionType": "Transfer",
+          "description": "Transfer from Chequing",
+          "creditAmount": 1000.00,
+          "debitAmount": null,
+          "balance": 11015.25
+        }
+      ]
+    },
+    {
+      "accountName": "Smith Family Credit Card",
+      "transitNumber": "00002",
+      "accountNumber": "4111111111111111",
+      "accountType": "Credit Card",
+      "transactions": [
+        {
+          "actionDate": "2024-01-03",
+          "valueDate": "2024-01-03",
+          "transactionType": "Purchase",
+          "description": "Department Store",
+          "creditAmount": null,
+          "debitAmount": 299.99,
+          "balance": -299.99
+        },
+        {
+          "actionDate": "2024-01-05",
+          "valueDate": "2024-01-05",
+          "transactionType": "Purchase",
+          "description": "Electronics Store",
+          "creditAmount": null,
+          "debitAmount": 899.00,
+          "balance": -1198.99
+        },
+        {
+          "actionDate": "2024-01-07",
+          "valueDate": "2024-01-07",
+          "transactionType": "Payment",
+          "description": "Payment Received",
+          "creditAmount": 500.00,
+          "debitAmount": null,
+          "balance": -698.99
+        },
+        {
+          "actionDate": "2024-01-10",
+          "valueDate": "2024-01-10",
+          "transactionType": "Purchase",
+          "description": "Hotel Booking",
+          "creditAmount": null,
+          "debitAmount": 350.00,
+          "balance": -1048.99
+        },
+        {
+          "actionDate": "2024-01-12",
+          "valueDate": "2024-01-12",
+          "transactionType": "Purchase",
+          "description": "Airline Tickets",
+          "creditAmount": null,
+          "debitAmount": 750.00,
+          "balance": -1798.99
+        },
+        {
+          "actionDate": "2024-01-15",
+          "valueDate": "2024-01-15",
+          "transactionType": "Fee",
+          "description": "Annual Fee",
+          "creditAmount": null,
+          "debitAmount": 120.00,
+          "balance": -1918.99
+        },
+        {
+          "actionDate": "2024-01-18",
+          "valueDate": "2024-01-18",
+          "transactionType": "Purchase",
+          "description": "Car Rental",
+          "creditAmount": null,
+          "debitAmount": 280.50,
+          "balance": -2199.49
+        },
+        {
+          "actionDate": "2024-01-20",
+          "valueDate": "2024-01-20",
+          "transactionType": "Payment",
+          "description": "Payment Received",
+          "creditAmount": 1000.00,
+          "debitAmount": null,
+          "balance": -1199.49
+        },
+        {
+          "actionDate": "2024-01-22",
+          "valueDate": "2024-01-22",
+          "transactionType": "Purchase",
+          "description": "Restaurant",
+          "creditAmount": null,
+          "debitAmount": 85.75,
+          "balance": -1285.24
+        },
+        {
+          "actionDate": "2024-01-25",
+          "valueDate": "2024-01-25",
+          "transactionType": "Purchase",
+          "description": "Jewelry Store",
+          "creditAmount": null,
+          "debitAmount": 1200.00,
+          "balance": -2485.24
+        },
+        {
+          "actionDate": "2024-01-28",
+          "valueDate": "2024-01-28",
+          "transactionType": "Cashback",
+          "description": "Rewards Cashback",
+          "creditAmount": 25.00,
+          "debitAmount": null,
+          "balance": -2460.24
+        },
+        {
+          "actionDate": "2024-01-30",
+          "valueDate": "2024-01-30",
+          "transactionType": "Interest",
+          "description": "Interest Charge",
+          "creditAmount": null,
+          "debitAmount": 32.45,
+          "balance": -2492.69
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+Account Number,Transit Number,Account Name,Account Type,Action Date,Value Date,Transaction Type,Description,Credit Amount,Debit Amount,Balance
+<th:block th:each="account : ${model.accounts}">
+    <tr th:each="transaction : ${account.transactions}" th:remove="tag">
+        <span th:text="${account.accountNumber}">000000000</span>,<span th:text="${account.transitNumber}">00000</span>,<span
+            th:text="${account.accountName}">Account Name</span>,<span th:text="${account.accountType}">Chequing</span>,<span
+            th:text="${#temporals.format(transaction.actionDate, 'yyyy-MM-dd')}">2024-01-01</span>,<span
+            th:text="${#temporals.format(transaction.valueDate, 'yyyy-MM-dd')}">2024-01-01</span>,<span
+            th:text="${transaction.transactionType}">Type</span>,<span
+            th:text="${transaction.description}">Description</span>,<span th:if="${transaction.creditAmount != null}"
+                                                                          th:text="${#numbers.formatDecimal(transaction.creditAmount, 0, 2)}">0.00</span><span
+            th:unless="${transaction.creditAmount != null}"></span>,<span th:if="${transaction.debitAmount != null}"
+                                                                          th:text="${#numbers.formatDecimal(transaction.debitAmount, 0, 2)}">0.00</span><span
+            th:unless="${transaction.debitAmount != null}"></span>,<span
+            th:text="${#numbers.formatDecimal(transaction.balance, 0, 2)}">0.00</span>
+    </tr>
+</th:block>
