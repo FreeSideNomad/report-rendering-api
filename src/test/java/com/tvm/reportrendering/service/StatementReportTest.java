@@ -1,7 +1,7 @@
 package com.tvm.reportrendering.service;
 
-import com.tvm.reportrendering.service.statement.StatementModel;
-import com.tvm.reportrendering.service.statement.StatementReport;
+import com.tvm.reportrendering.reports.statement.StatementModel;
+import com.tvm.reportrendering.reports.statement.StatementReport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;

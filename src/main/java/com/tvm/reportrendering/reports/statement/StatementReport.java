@@ -1,4 +1,4 @@
-package com.tvm.reportrendering.service.statement;
+package com.tvm.reportrendering.reports.statement;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
