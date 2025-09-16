@@ -1,13 +1,16 @@
 package com.tvm.reportrendering.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tvm.reportrendering.model.OutputFormat;
 import com.tvm.reportrendering.model.ReportOutput;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.io.InputStream;
+import java.util.Map;
 
 @Slf4j
 public abstract class Report<T> {
@@ -18,14 +21,19 @@ public abstract class Report<T> {
     @Autowired
     protected PdfService pdfService;
 
-    public ReportOutput process(InputStream inputStream, String templateName, OutputFormat outputFormat) {
-        log.info("Processing report with template: {} and format: {}", templateName, outputFormat);
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    public ReportOutput process(InputStream inputStream, String templateName, OutputFormat outputFormat, String language) {
+        log.info("Processing report with template: {}, format: {} and language: {}", templateName, outputFormat, language);
 
         try {
             T model = parse(inputStream);
             log.debug("Parsed model successfully");
 
-            ReportOutput output = render(model, templateName, outputFormat);
+            Map<String, String> labels = loadLanguageLabels(templateName, language);
+            log.debug("Loaded language labels for language: {}", language);
+
+            ReportOutput output = render(model, templateName, outputFormat, labels);
             log.info("Report processed successfully");
             return output;
         } catch (Exception e) {
@@ -34,11 +42,30 @@ public abstract class Report<T> {
         }
     }
 
+    private Map<String, String> loadLanguageLabels(String templateName, String language) {
+        String languageFileName = String.format("language_%s.json", language);
+        String languageFilePath = String.format("templates/%s/%s", templateName, languageFileName);
+
+        try {
+            ClassPathResource resource = new ClassPathResource(languageFilePath);
+            if (!resource.exists()) {
+                throw new IllegalArgumentException("Language file not found: " + languageFilePath);
+            }
+
+            log.debug("Loading language file: {}", languageFilePath);
+            return objectMapper.readValue(resource.getInputStream(), Map.class);
+        } catch (Exception e) {
+            log.error("Error loading language file {}: {}", languageFilePath, e.getMessage());
+            throw new RuntimeException("Failed to load language file: " + languageFilePath, e);
+        }
+    }
+
     protected abstract T parse(InputStream inputStream);
 
-    protected ReportOutput render(T model, String templateName, OutputFormat outputFormat) {
+    protected ReportOutput render(T model, String templateName, OutputFormat outputFormat, Map<String, String> labels) {
         Context context = new Context();
         context.setVariable("model", model);
+        context.setVariable("labels", labels);
 
         String templatePath = String.format("%s/%s", templateName, outputFormat.name().toLowerCase());
 

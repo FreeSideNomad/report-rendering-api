@@ -1,4 +1,4 @@
-Account Number,Transit Number,Account Name,Account Type,Action Date,Value Date,Transaction Type,Description,Credit Amount,Debit Amount,Balance
+<span th:text="${labels.account_number}">Account Number</span>,<span th:text="${labels.transit_number}">Transit Number</span>,Account Name,<span th:text="${labels.account_type}">Account Type</span>,<span th:text="${labels.action_date}">Action Date</span>,<span th:text="${labels.value_date}">Value Date</span>,<span th:text="${labels.transaction_type}">Transaction Type</span>,<span th:text="${labels.description}">Description</span>,<span th:text="${labels.credit_amount}">Credit Amount</span>,<span th:text="${labels.debit_amount}">Debit Amount</span>,<span th:text="${labels.balance}">Balance</span>
 <th:block th:each="account : ${model.accounts}">
     <tr th:each="transaction : ${account.transactions}" th:remove="tag">
         <span th:text="${account.accountNumber}">000000000</span>,<span th:text="${account.transitNumber}">00000</span>,<span

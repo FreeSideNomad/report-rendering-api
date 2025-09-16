@@ -1,0 +1,23 @@
+{
+  "statement_title": "Izvještaj o računu",
+  "statement_period": "Razdoblje izvještaja:",
+  "account_number": "Broj računa:",
+  "transit_number": "Tranzitni broj:",
+  "account_type": "Tip računa:",
+  "opening_balance": "Početni saldo:",
+  "closing_balance": "Završni saldo:",
+  "transactions": "Transakcije",
+  "action_date": "Datum akcije",
+  "value_date": "Datum vrijednosti",
+  "description": "Opis",
+  "type": "Tip",
+  "credit": "Kredit",
+  "debit": "Debit",
+  "balance": "Saldo",
+  "total_opening_balance": "Ukupni početni saldo:",
+  "total_closing_balance": "Ukupni završni saldo:",
+  "to": "do",
+  "transaction_type": "Tip transakcije",
+  "credit_amount": "Iznos kredita",
+  "debit_amount": "Iznos debita"
+}

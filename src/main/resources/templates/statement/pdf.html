@@ -101,12 +101,12 @@
 </head>
 <body>
 <div class="header">
-    <h1>Account Statement</h1>
+    <h1 th:text="${labels.statement_title}">Account Statement</h1>
 </div>
 
 <div class="statement-info">
-    <p><strong>Statement Period:</strong> <span th:text="${#temporals.format(model.startDate, 'yyyy-MM-dd')}"></span>
-        to <span th:text="${#temporals.format(model.endDate, 'yyyy-MM-dd')}"></span></p>
+    <p><strong th:text="${labels.statement_period}">Statement Period:</strong> <span th:text="${#temporals.format(model.startDate, 'yyyy-MM-dd')}"></span>
+        <span th:text="${labels.to}">to</span> <span th:text="${#temporals.format(model.endDate, 'yyyy-MM-dd')}"></span></p>
 </div>
 
 <div class="account" th:each="account, accountStat : ${model.accounts}">
@@ -114,29 +114,29 @@
 
     <div class="account-header">
         <h3 th:text="${account.accountName}">Account Name</h3>
-        <p><strong>Account Number:</strong> <span th:text="${account.accountNumber}">000000000</span></p>
-        <p><strong>Transit Number:</strong> <span th:text="${account.transitNumber}">00000</span></p>
-        <p><strong>Account Type:</strong> <span th:text="${account.accountType}">Chequing</span></p>
+        <p><strong th:text="${labels.account_number}">Account Number:</strong> <span th:text="${account.accountNumber}">000000000</span></p>
+        <p><strong th:text="${labels.transit_number}">Transit Number:</strong> <span th:text="${account.transitNumber}">00000</span></p>
+        <p><strong th:text="${labels.account_type}">Account Type:</strong> <span th:text="${account.accountType}">Chequing</span></p>
     </div>
 
     <div class="balance">
-        <p><strong>Opening Balance: $<span th:text="${#numbers.formatDecimal(account.openingBalance, 1, 'COMMA', 2, 'POINT')}">0.00</span></strong>
+        <p><strong><span th:text="${labels.opening_balance}">Opening Balance:</span> $<span th:text="${#numbers.formatDecimal(account.openingBalance, 1, 'COMMA', 2, 'POINT')}">0.00</span></strong>
         </p>
-        <p><strong>Closing Balance: $<span th:text="${#numbers.formatDecimal(account.closingBalance, 1, 'COMMA', 2, 'POINT')}">0.00</span></strong>
+        <p><strong><span th:text="${labels.closing_balance}">Closing Balance:</span> $<span th:text="${#numbers.formatDecimal(account.closingBalance, 1, 'COMMA', 2, 'POINT')}">0.00</span></strong>
         </p>
     </div>
 
-    <h4>Transactions</h4>
+    <h4 th:text="${labels.transactions}">Transactions</h4>
     <table>
         <thead>
         <tr>
-            <th>Action Date</th>
-            <th>Value Date</th>
-            <th>Description</th>
-            <th>Type</th>
-            <th>Credit</th>
-            <th>Debit</th>
-            <th>Balance</th>
+            <th th:text="${labels.action_date}">Action Date</th>
+            <th th:text="${labels.value_date}">Value Date</th>
+            <th th:text="${labels.description}">Description</th>
+            <th th:text="${labels.type}">Type</th>
+            <th th:text="${labels.credit}">Credit</th>
+            <th th:text="${labels.debit}">Debit</th>
+            <th th:text="${labels.balance}">Balance</th>
         </tr>
         </thead>
         <tbody>
@@ -162,9 +162,9 @@
 </div>
 
 <div class="totals">
-    <p><strong>Total Opening Balance: $<span
+    <p><strong><span th:text="${labels.total_opening_balance}">Total Opening Balance:</span> $<span
             th:text="${#numbers.formatDecimal(model.totalOpeningBalance, 1, 'COMMA', 2, 'POINT')}">0.00</span></strong></p>
-    <p><strong>Total Closing Balance: $<span
+    <p><strong><span th:text="${labels.total_closing_balance}">Total Closing Balance:</span> $<span
             th:text="${#numbers.formatDecimal(model.totalClosingBalance, 1, 'COMMA', 2, 'POINT')}">0.00</span></strong></p>
 </div>
 </body>

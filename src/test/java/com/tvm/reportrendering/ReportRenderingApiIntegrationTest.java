@@ -65,6 +65,7 @@ class ReportRenderingApiIntegrationTest {
         body.add("file", resource);
         body.add("template", "statement");
         body.add("output", "HTML");
+        body.add("language", "en");
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
@@ -94,6 +95,7 @@ class ReportRenderingApiIntegrationTest {
         body.add("file", resource);
         body.add("template", "statement");
         body.add("output", "CSV");
+        body.add("language", "en");
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
@@ -123,6 +125,7 @@ class ReportRenderingApiIntegrationTest {
         body.add("file", resource);
         body.add("template", "statement");
         body.add("output", "PDF");
+        body.add("language", "en");
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
@@ -156,6 +159,7 @@ class ReportRenderingApiIntegrationTest {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("template", "invalid-template");
         body.add("output", "HTML");
+        body.add("language", "en");
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
@@ -198,6 +202,7 @@ class ReportRenderingApiIntegrationTest {
             body.add("file", resource);
             body.add("template", "statement");
             body.add("output", formats[i]);
+        body.add("language", "en");
 
             HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
@@ -267,6 +272,7 @@ class ReportRenderingApiIntegrationTest {
                     body.add("file", resource);
                     body.add("template", "statement");
                     body.add("output", "HTML");
+        body.add("language", "en");
 
                     HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 

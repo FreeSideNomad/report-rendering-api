@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.thymeleaf.TemplateEngine;
 import org.mockito.ArgumentMatchers;
 import org.thymeleaf.context.Context;
+import org.springframework.core.io.ClassPathResource;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -66,7 +67,7 @@ class ReportServiceTest {
 
         // Test
         InputStream inputStream = new ByteArrayInputStream("test data".getBytes());
-        ReportOutput result = reportService.generateReport(inputStream, "test", OutputFormat.HTML);
+        ReportOutput result = reportService.generateReport(inputStream, "test", OutputFormat.HTML, "en");
 
         // Verify
         assertNotNull(result);
@@ -84,7 +85,7 @@ class ReportServiceTest {
         InputStream inputStream = new ByteArrayInputStream("test data".getBytes());
 
         assertThrows(IllegalArgumentException.class, () -> {
-            reportService.generateReport(inputStream, "unknown", OutputFormat.HTML);
+            reportService.generateReport(inputStream, "unknown", OutputFormat.HTML, "en");
         });
     }
 

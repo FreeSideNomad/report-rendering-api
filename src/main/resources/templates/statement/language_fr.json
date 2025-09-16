@@ -1,0 +1,23 @@
+{
+  "statement_title": "Relevé de compte",
+  "statement_period": "Période du relevé :",
+  "account_number": "Numéro de compte :",
+  "transit_number": "Numéro de transit :",
+  "account_type": "Type de compte :",
+  "opening_balance": "Solde d'ouverture :",
+  "closing_balance": "Solde de clôture :",
+  "transactions": "Transactions",
+  "action_date": "Date d'action",
+  "value_date": "Date de valeur",
+  "description": "Description",
+  "type": "Type",
+  "credit": "Crédit",
+  "debit": "Débit",
+  "balance": "Solde",
+  "total_opening_balance": "Solde d'ouverture total :",
+  "total_closing_balance": "Solde de clôture total :",
+  "to": "à",
+  "transaction_type": "Type de transaction",
+  "credit_amount": "Montant crédit",
+  "debit_amount": "Montant débit"
+}
