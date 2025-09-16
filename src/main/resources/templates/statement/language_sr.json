@@ -1,0 +1,23 @@
+{
+  "statement_title": "Извештај о рачуну",
+  "statement_period": "Период извештаја:",
+  "account_number": "Број рачуна:",
+  "transit_number": "Транзитни број:",
+  "account_type": "Тип рачуна:",
+  "opening_balance": "Почетни салдо:",
+  "closing_balance": "Завршни салдо:",
+  "transactions": "Трансакције",
+  "action_date": "Датум акције",
+  "value_date": "Датум вредности",
+  "description": "Опис",
+  "type": "Тип",
+  "credit": "Кредит",
+  "debit": "Дебит",
+  "balance": "Салдо",
+  "total_opening_balance": "Укупни почетни салдо:",
+  "total_closing_balance": "Укупни завршни салдо:",
+  "to": "до",
+  "transaction_type": "Тип трансакције",
+  "credit_amount": "Износ кредита",
+  "debit_amount": "Износ дебита"
+}

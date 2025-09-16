@@ -40,7 +40,7 @@ class ReportServiceIntegrationTest {
     void testGenerateStatementReportHtmlIntegration() throws Exception {
         ClassPathResource resource = new ClassPathResource("integration-test-data.json");
         try (InputStream inputStream = resource.getInputStream()) {
-            ReportOutput output = reportService.generateReport(inputStream, "statement", OutputFormat.HTML);
+            ReportOutput output = reportService.generateReport(inputStream, "statement", OutputFormat.HTML, "en");
 
             assertNotNull(output);
             assertEquals("text/html", output.getMimeType());
@@ -64,7 +64,7 @@ class ReportServiceIntegrationTest {
     void testGenerateStatementReportCsvIntegration() throws Exception {
         ClassPathResource resource = new ClassPathResource("integration-test-data.json");
         try (InputStream inputStream = resource.getInputStream()) {
-            ReportOutput output = reportService.generateReport(inputStream, "statement", OutputFormat.CSV);
+            ReportOutput output = reportService.generateReport(inputStream, "statement", OutputFormat.CSV, "en");
 
             assertNotNull(output);
             assertEquals("text/csv", output.getMimeType());
@@ -89,7 +89,7 @@ class ReportServiceIntegrationTest {
     void testGenerateStatementReportPdfIntegration() throws Exception {
         ClassPathResource resource = new ClassPathResource("integration-test-data.json");
         try (InputStream inputStream = resource.getInputStream()) {
-            ReportOutput output = reportService.generateReport(inputStream, "statement", OutputFormat.PDF);
+            ReportOutput output = reportService.generateReport(inputStream, "statement", OutputFormat.PDF, "en");
 
             assertNotNull(output);
             assertEquals("application/pdf", output.getMimeType());
@@ -109,7 +109,7 @@ class ReportServiceIntegrationTest {
     void testGenerateReportWithMultipleAccountsIntegration() throws Exception {
         ClassPathResource resource = new ClassPathResource("integration-test-data.json");
         try (InputStream inputStream = resource.getInputStream()) {
-            ReportOutput output = reportService.generateReport(inputStream, "statement", OutputFormat.HTML);
+            ReportOutput output = reportService.generateReport(inputStream, "statement", OutputFormat.HTML, "en");
 
             assertNotNull(output);
             String htmlContent = (String) output.getContent();
@@ -136,7 +136,7 @@ class ReportServiceIntegrationTest {
         ClassPathResource resource = new ClassPathResource("integration-test-data.json");
         try (InputStream inputStream = resource.getInputStream()) {
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-                reportService.generateReport(inputStream, "invalid-template", OutputFormat.HTML);
+                reportService.generateReport(inputStream, "invalid-template", OutputFormat.HTML, "en");
             });
 
             assertTrue(exception.getMessage().contains("No report handler found for template: invalid-template"));
@@ -149,7 +149,7 @@ class ReportServiceIntegrationTest {
         InputStream inputStream = new java.io.ByteArrayInputStream(invalidJson.getBytes());
 
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            reportService.generateReport(inputStream, "statement", OutputFormat.HTML);
+            reportService.generateReport(inputStream, "statement", OutputFormat.HTML, "en");
         });
 
         assertTrue(exception.getMessage().contains("Failed to process report"));

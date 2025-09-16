@@ -42,8 +42,8 @@ public class ReportService {
         log.info("Initialized {} report handlers", reportHandlers.size());
     }
 
-    public ReportOutput generateReport(InputStream inputStream, String templateName, OutputFormat outputFormat) {
-        log.info("Generating report for template: {} with format: {}", templateName, outputFormat);
+    public ReportOutput generateReport(InputStream inputStream, String templateName, OutputFormat outputFormat, String language) {
+        log.info("Generating report for template: {} with format: {} and language: {}", templateName, outputFormat, language);
 
         Report<?> handler = reportHandlers.get(templateName);
         if (handler == null) {
@@ -51,7 +51,7 @@ public class ReportService {
             throw new IllegalArgumentException("No report handler found for template: " + templateName);
         }
 
-        return handler.process(inputStream, templateName, outputFormat);
+        return handler.process(inputStream, templateName, outputFormat, language);
     }
 
     public Map<String, List<OutputFormat>> getAvailableTemplates() {

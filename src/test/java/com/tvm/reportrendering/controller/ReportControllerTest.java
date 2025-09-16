@@ -36,13 +36,14 @@ class ReportControllerTest {
         MockMultipartFile file = new MockMultipartFile("file", "test.json", "application/json", "{}".getBytes());
         ReportOutput reportOutput = new ReportOutput("text/html", "<html>Test Report</html>");
 
-        when(reportService.generateReport(any(), eq("statement"), eq(OutputFormat.HTML)))
+        when(reportService.generateReport(any(), eq("statement"), eq(OutputFormat.HTML), eq("en")))
                 .thenReturn(reportOutput);
 
         mockMvc.perform(multipart("/reports")
                         .file(file)
                         .param("template", "statement")
-                        .param("output", "HTML"))
+                        .param("output", "HTML")
+                        .param("language", "en"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/html"))
                 .andExpect(content().string("<html>Test Report</html>"));
@@ -54,13 +55,14 @@ class ReportControllerTest {
         byte[] pdfContent = "PDF content".getBytes();
         ReportOutput reportOutput = new ReportOutput("application/pdf", pdfContent);
 
-        when(reportService.generateReport(any(), eq("statement"), eq(OutputFormat.PDF)))
+        when(reportService.generateReport(any(), eq("statement"), eq(OutputFormat.PDF), eq("en")))
                 .thenReturn(reportOutput);
 
         mockMvc.perform(multipart("/reports")
                         .file(file)
                         .param("template", "statement")
-                        .param("output", "PDF"))
+                        .param("output", "PDF")
+                        .param("language", "en"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/pdf"))
                 .andExpect(header().string("Content-Disposition", "attachment; filename=\"statement-report.pdf\""));
@@ -71,13 +73,14 @@ class ReportControllerTest {
         MockMultipartFile file = new MockMultipartFile("file", "test.json", "application/json", "{}".getBytes());
         ReportOutput reportOutput = new ReportOutput("text/csv", "header1,header2\nvalue1,value2");
 
-        when(reportService.generateReport(any(), eq("statement"), eq(OutputFormat.CSV)))
+        when(reportService.generateReport(any(), eq("statement"), eq(OutputFormat.CSV), eq("en")))
                 .thenReturn(reportOutput);
 
         mockMvc.perform(multipart("/reports")
                         .file(file)
                         .param("template", "statement")
-                        .param("output", "CSV"))
+                        .param("output", "CSV")
+                        .param("language", "en"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/csv"))
                 .andExpect(content().string("header1,header2\nvalue1,value2"))
@@ -88,13 +91,14 @@ class ReportControllerTest {
     void testGenerateReportWithInvalidTemplate() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "test.json", "application/json", "{}".getBytes());
 
-        when(reportService.generateReport(any(), eq("invalid"), eq(OutputFormat.HTML)))
+        when(reportService.generateReport(any(), eq("invalid"), eq(OutputFormat.HTML), eq("en")))
                 .thenThrow(new IllegalArgumentException("No report handler found for template: invalid"));
 
         mockMvc.perform(multipart("/reports")
                         .file(file)
                         .param("template", "invalid")
-                        .param("output", "HTML"))
+                        .param("output", "HTML")
+                        .param("language", "en"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.error").value("Invalid request parameters"))
@@ -121,5 +125,72 @@ class ReportControllerTest {
 
         mockMvc.perform(get("/templates"))
                 .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    void testGenerateReportWithInvalidLanguageCode() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", "test.json", "application/json", "{}".getBytes());
+
+        mockMvc.perform(multipart("/reports")
+                        .file(file)
+                        .param("template", "statement")
+                        .param("output", "HTML")
+                        .param("language", "invalid"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.error").value("Invalid language code. Must be a two-letter ISO language code (e.g., en, fr, sr, hr)"));
+    }
+
+    @Test
+    void testGenerateReportWithMissingLanguage() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", "test.json", "application/json", "{}".getBytes());
+
+        mockMvc.perform(multipart("/reports")
+                        .file(file)
+                        .param("template", "statement")
+                        .param("output", "HTML"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testGenerateReportWithDifferentLanguages() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", "test.json", "application/json", "{}".getBytes());
+        ReportOutput reportOutput = new ReportOutput("text/html", "<html>Test Report</html>");
+
+        // Test French
+        when(reportService.generateReport(any(), eq("statement"), eq(OutputFormat.HTML), eq("fr")))
+                .thenReturn(reportOutput);
+
+        mockMvc.perform(multipart("/reports")
+                        .file(file)
+                        .param("template", "statement")
+                        .param("output", "HTML")
+                        .param("language", "fr"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("text/html"));
+
+        // Test Serbian
+        when(reportService.generateReport(any(), eq("statement"), eq(OutputFormat.HTML), eq("sr")))
+                .thenReturn(reportOutput);
+
+        mockMvc.perform(multipart("/reports")
+                        .file(file)
+                        .param("template", "statement")
+                        .param("output", "HTML")
+                        .param("language", "sr"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("text/html"));
+
+        // Test Croatian
+        when(reportService.generateReport(any(), eq("statement"), eq(OutputFormat.HTML), eq("hr")))
+                .thenReturn(reportOutput);
+
+        mockMvc.perform(multipart("/reports")
+                        .file(file)
+                        .param("template", "statement")
+                        .param("output", "HTML")
+                        .param("language", "hr"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("text/html"));
     }
 }

@@ -56,16 +56,26 @@ public class ReportController {
             @Parameter(description = "Template name for the report", example = "statement", required = true)
             @RequestParam("template") String template,
             @Parameter(description = "Output format for the report", required = true)
-            @RequestParam("output") OutputFormat output) {
+            @RequestParam("output") OutputFormat output,
+            @Parameter(description = "Two-letter ISO language code", example = "en", required = true)
+            @RequestParam("language") String language) {
 
-        log.info("Received report generation request: template={}, output={}, file={}",
-                template, output, file.getOriginalFilename());
+        log.info("Received report generation request: template={}, output={}, language={}, file={}",
+                template, output, language, file.getOriginalFilename());
+
+        // Validate language code format
+        if (language == null || !language.matches("^[a-z]{2}$")) {
+            log.error("Invalid language code: {}", language);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", "Invalid language code. Must be a two-letter ISO language code (e.g., en, fr, sr, hr)"));
+        }
 
         try {
             ReportOutput reportOutput = reportService.generateReport(
                     file.getInputStream(),
                     template,
-                    output
+                    output,
+                    language
             );
 
             HttpHeaders headers = new HttpHeaders();

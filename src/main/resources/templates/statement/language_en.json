@@ -1,0 +1,23 @@
+{
+  "statement_title": "Account Statement",
+  "statement_period": "Statement Period:",
+  "account_number": "Account Number:",
+  "transit_number": "Transit Number:",
+  "account_type": "Account Type:",
+  "opening_balance": "Opening Balance:",
+  "closing_balance": "Closing Balance:",
+  "transactions": "Transactions",
+  "action_date": "Action Date",
+  "value_date": "Value Date",
+  "description": "Description",
+  "type": "Type",
+  "credit": "Credit",
+  "debit": "Debit",
+  "balance": "Balance",
+  "total_opening_balance": "Total Opening Balance:",
+  "total_closing_balance": "Total Closing Balance:",
+  "to": "to",
+  "transaction_type": "Transaction Type",
+  "credit_amount": "Credit Amount",
+  "debit_amount": "Debit Amount"
+}

@@ -25,6 +25,7 @@ Generates reports from uploaded data files.
 - `file` (multipart/form-data): JSON file containing report data
 - `template` (form parameter): Template name (currently: "statement")
 - `output` (form parameter): Output format (HTML, CSV, PDF)
+- `language` (form parameter): Two-letter ISO language code (en, fr, sr, hr)
 
 **Response:**
 - HTML: `text/html` content
@@ -36,7 +37,8 @@ Generates reports from uploaded data files.
 curl -X POST http://localhost:8080/reports \
   -F "file=@sample-statement.json" \
   -F "template=statement" \
-  -F "output=HTML"
+  -F "output=HTML" \
+  -F "language=en"
 ```
 
 ### GET /templates
@@ -64,12 +66,15 @@ Returns available templates and their supported output formats.
 - Report generation coordination
 - Handler mapping by template name
 - Business logic orchestration
+- Language parameter validation and propagation
 
 **Report Abstract Class** (`com.tvm.reportrendering.service.Report`)
 - Strategy pattern base class
 - Generic `process()` method implementation
 - Template engine integration
 - PDF service coordination
+- Language file loading and validation
+- Internationalization label management
 - Null-safe error handling
 
 **StatementReport** (`com.tvm.reportrendering.service.StatementReport`)
@@ -86,15 +91,17 @@ Returns available templates and their supported output formats.
 
 ### Report Processing Flow
 
-1. **File Upload**: Controller receives multipart file and parameters
-2. **Service Dispatch**: ReportService finds appropriate handler by template name
-3. **Data Parsing**: Concrete Report class parses input stream to model objects
-4. **Balance Calculation**: Business logic calculates account opening/closing balances
-5. **Template Rendering**: Thymeleaf processes templates with model data
-6. **Format Output**:
-   - HTML: Direct template output
-   - CSV: Template-generated CSV format
-   - PDF: HTML → Playwright → Binary PDF
+1. **File Upload**: Controller receives multipart file and parameters (including language)
+2. **Language Validation**: Controller validates two-letter ISO language code format
+3. **Service Dispatch**: ReportService finds appropriate handler by template name
+4. **Data Parsing**: Concrete Report class parses input stream to model objects
+5. **Language Loading**: Report class loads language labels from JSON files
+6. **Balance Calculation**: Business logic calculates account opening/closing balances
+7. **Template Rendering**: Thymeleaf processes templates with model data and language labels
+8. **Format Output**:
+   - HTML: Direct template output with internationalized labels
+   - CSV: Template-generated CSV format with translated headers
+   - PDF: HTML → Playwright → Binary PDF with localized content
 
 ### Data Models
 
@@ -151,7 +158,11 @@ src/main/resources/templates/statement/
 ├── csv.html            # CSV generation template
 ├── pdf.html            # PDF main content
 ├── pdf_header.html     # PDF header (optional)
-└── pdf_footer.html     # PDF footer (optional)
+├── pdf_footer.html     # PDF footer (optional)
+├── language_en.json    # English language labels
+├── language_fr.json    # French (Quebec) language labels
+├── language_sr.json    # Serbian Cyrillic language labels
+└── language_hr.json    # Croatian language labels
 ```
 
 **Template Features:**
@@ -161,6 +172,46 @@ src/main/resources/templates/statement/
 - Conditional rendering for different account types
 - RBC logo integration in headers
 - Responsive table layouts
+- Internationalization support with language-specific labels
+
+### Internationalization (i18n)
+
+**Language Support:**
+- English (en) - Default language
+- French (fr) - Canadian French (Quebec)
+- Serbian (sr) - Cyrillic script
+- Croatian (hr) - Latin script
+
+**Language File Structure:**
+```json
+{
+  "statement_title": "Account Statement",
+  "statement_period": "Statement Period:",
+  "account_number": "Account Number:",
+  "transit_number": "Transit Number:",
+  "account_type": "Account Type:",
+  "opening_balance": "Opening Balance:",
+  "closing_balance": "Closing Balance:",
+  "transactions": "Transactions",
+  "action_date": "Action Date",
+  "value_date": "Value Date",
+  "description": "Description",
+  "type": "Type",
+  "credit": "Credit",
+  "debit": "Debit",
+  "balance": "Balance",
+  "total_opening_balance": "Total Opening Balance:",
+  "total_closing_balance": "Total Closing Balance:",
+  "to": "to"
+}
+```
+
+**Language Integration:**
+- Language files stored in `templates/{template_name}/language_{code}.json`
+- Labels loaded dynamically based on language parameter
+- Template variables accessible as `${labels.key_name}`
+- Automatic validation and error handling for missing language files
+- Exception thrown if language file not found for requested language
 
 ### Configuration Classes
 

@@ -49,7 +49,8 @@ class ReportControllerIntegrationTest {
         mockMvc.perform(multipart("/reports")
                         .file(file)
                         .param("template", "statement")
-                        .param("output", "HTML"))
+                        .param("output", "HTML")
+                        .param("language", "en"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/html"))
                 .andExpect(content().string(containsString("<html")))
@@ -74,7 +75,8 @@ class ReportControllerIntegrationTest {
         mockMvc.perform(multipart("/reports")
                         .file(file)
                         .param("template", "statement")
-                        .param("output", "CSV"))
+                        .param("output", "CSV")
+                        .param("language", "en"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/csv"))
                 .andExpect(content().string(containsString("Account Number")))
@@ -100,7 +102,8 @@ class ReportControllerIntegrationTest {
         mockMvc.perform(multipart("/reports")
                         .file(file)
                         .param("template", "statement")
-                        .param("output", "PDF"))
+                        .param("output", "PDF")
+                        .param("language", "en"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/pdf"))
                 .andExpect(header().string("Content-Disposition", "attachment; filename=\"statement-report.pdf\""));
@@ -121,7 +124,8 @@ class ReportControllerIntegrationTest {
         mockMvc.perform(multipart("/reports")
                         .file(file)
                         .param("template", "invalid-template")
-                        .param("output", "HTML"))
+                        .param("output", "HTML")
+                        .param("language", "en"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.error").value("Invalid request parameters"))
@@ -143,7 +147,8 @@ class ReportControllerIntegrationTest {
         mockMvc.perform(multipart("/reports")
                         .file(file)
                         .param("template", "statement")
-                        .param("output", "INVALID"))
+                        .param("output", "INVALID")
+                        .param("language", "en"))
                 .andExpect(status().isBadRequest());
     }
 
@@ -151,7 +156,8 @@ class ReportControllerIntegrationTest {
     void testGenerateReportWithMissingFileIntegration() throws Exception {
         mockMvc.perform(multipart("/reports")
                         .param("template", "statement")
-                        .param("output", "HTML"))
+                        .param("output", "HTML")
+                        .param("language", "en"))
                 .andExpect(status().isBadRequest());
     }
 
@@ -169,7 +175,8 @@ class ReportControllerIntegrationTest {
 
         mockMvc.perform(multipart("/reports")
                         .file(file)
-                        .param("output", "HTML"))
+                        .param("output", "HTML")
+                        .param("language", "en"))
                 .andExpect(status().isBadRequest());
     }
 
@@ -187,7 +194,8 @@ class ReportControllerIntegrationTest {
 
         mockMvc.perform(multipart("/reports")
                         .file(file)
-                        .param("template", "statement"))
+                        .param("template", "statement")
+                        .param("language", "en"))
                 .andExpect(status().isBadRequest());
     }
 
@@ -203,7 +211,8 @@ class ReportControllerIntegrationTest {
         mockMvc.perform(multipart("/reports")
                         .file(file)
                         .param("template", "statement")
-                        .param("output", "HTML"))
+                        .param("output", "HTML")
+                        .param("language", "en"))
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.error").value("Report generation failed"));
@@ -221,7 +230,8 @@ class ReportControllerIntegrationTest {
         mockMvc.perform(multipart("/reports")
                         .file(file)
                         .param("template", "statement")
-                        .param("output", "HTML"))
+                        .param("output", "HTML")
+                        .param("language", "en"))
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.error").value("Report generation failed"));
@@ -246,7 +256,8 @@ class ReportControllerIntegrationTest {
             mockMvc.perform(multipart("/reports")
                             .file(file)
                             .param("template", "statement")
-                            .param("output", formats[i]))
+                            .param("output", formats[i])
+                            .param("language", "en"))
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(expectedContentTypes[i]));
         }
@@ -275,7 +286,8 @@ class ReportControllerIntegrationTest {
                     mockMvc.perform(multipart("/reports")
                                     .file(file)
                                     .param("template", "statement")
-                                    .param("output", "HTML"))
+                                    .param("output", "HTML")
+                        .param("language", "en"))
                             .andExpect(status().isOk())
                             .andExpect(content().contentType("text/html"));
                 } catch (Exception e) {
