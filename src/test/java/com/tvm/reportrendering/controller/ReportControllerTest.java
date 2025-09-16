@@ -63,7 +63,7 @@ class ReportControllerTest {
                         .param("output", "PDF"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/pdf"))
-                .andExpect(header().string("Content-Disposition", "form-data; name=\"attachment\"; filename=\"statement-report.pdf\""));
+                .andExpect(header().string("Content-Disposition", "attachment; filename=\"statement-report.pdf\""));
     }
 
     @Test
@@ -81,7 +81,7 @@ class ReportControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/csv"))
                 .andExpect(content().string("header1,header2\nvalue1,value2"))
-                .andExpect(header().string("Content-Disposition", "form-data; name=\"attachment\"; filename=\"statement-report.csv\""));
+                .andExpect(header().string("Content-Disposition", "attachment; filename=\"statement-report.csv\""));
     }
 
     @Test
