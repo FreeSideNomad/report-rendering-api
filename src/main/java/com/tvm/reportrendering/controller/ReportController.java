@@ -26,7 +26,6 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("/api")
 @RequiredArgsConstructor
 @Tag(name = "Reports", description = "API for generating financial reports in multiple formats")
 public class ReportController {
@@ -92,11 +91,11 @@ public class ReportController {
         } catch (IllegalArgumentException e) {
             log.error("Invalid request parameters: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(Map.of("error", e.getMessage()));
+                    .body(Map.of("error", "Invalid request parameters", "message", e.getMessage()));
         } catch (Exception e) {
             log.error("Error generating report: {}", e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("error", "Failed to generate report: " + e.getMessage()));
+                    .body(Map.of("error", "Report generation failed", "message", e.getMessage()));
         }
     }
 

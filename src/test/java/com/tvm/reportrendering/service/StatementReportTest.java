@@ -1,6 +1,7 @@
 package com.tvm.reportrendering.service;
 
-import com.tvm.reportrendering.model.StatementModel;
+import com.tvm.reportrendering.service.statement.StatementModel;
+import com.tvm.reportrendering.service.statement.StatementReport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
@@ -32,13 +33,14 @@ class StatementReportTest {
         assertNotNull(result.getTotalClosingBalance());
 
         // Verify first account
-        assertEquals("John Doe Chequing Account", result.getAccounts().get(0).getAccountName());
-        assertEquals("1234567890", result.getAccounts().get(0).getAccountNumber());
-        assertEquals(17, result.getAccounts().get(0).getTransactions().size());
+        StatementModel.Account firstAccount = result.getAccounts().get(0);
+        assertEquals("John Doe Chequing Account", firstAccount.getAccountName());
+        assertEquals("1234567890", firstAccount.getAccountNumber());
+        assertEquals(17, firstAccount.getTransactions().size());
 
         // Verify calculated balances
-        assertTrue(result.getAccounts().get(0).getOpeningBalance().compareTo(BigDecimal.ZERO) > 0);
-        assertTrue(result.getAccounts().get(0).getClosingBalance().compareTo(BigDecimal.ZERO) > 0);
+        assertTrue(firstAccount.getOpeningBalance().compareTo(BigDecimal.ZERO) > 0);
+        assertTrue(firstAccount.getClosingBalance().compareTo(BigDecimal.ZERO) > 0);
     }
 
     @Test
@@ -72,7 +74,8 @@ class StatementReportTest {
         InputStream inputStream = new java.io.ByteArrayInputStream(jsonContent.getBytes());
         StatementModel result = statementReport.parse(inputStream);
 
-        assertEquals(BigDecimal.ZERO, result.getAccounts().get(0).getOpeningBalance());
-        assertEquals(BigDecimal.ZERO, result.getAccounts().get(0).getClosingBalance());
+        StatementModel.Account account = result.getAccounts().get(0);
+        assertEquals(BigDecimal.ZERO, account.getOpeningBalance());
+        assertEquals(BigDecimal.ZERO, account.getClosingBalance());
     }
 }

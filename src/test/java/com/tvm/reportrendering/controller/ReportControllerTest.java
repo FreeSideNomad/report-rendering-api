@@ -39,7 +39,7 @@ class ReportControllerTest {
         when(reportService.generateReport(any(), eq("statement"), eq(OutputFormat.HTML)))
                 .thenReturn(reportOutput);
 
-        mockMvc.perform(multipart("/api/reports")
+        mockMvc.perform(multipart("/reports")
                         .file(file)
                         .param("template", "statement")
                         .param("output", "HTML"))
@@ -57,7 +57,7 @@ class ReportControllerTest {
         when(reportService.generateReport(any(), eq("statement"), eq(OutputFormat.PDF)))
                 .thenReturn(reportOutput);
 
-        mockMvc.perform(multipart("/api/reports")
+        mockMvc.perform(multipart("/reports")
                         .file(file)
                         .param("template", "statement")
                         .param("output", "PDF"))
@@ -74,7 +74,7 @@ class ReportControllerTest {
         when(reportService.generateReport(any(), eq("statement"), eq(OutputFormat.CSV)))
                 .thenReturn(reportOutput);
 
-        mockMvc.perform(multipart("/api/reports")
+        mockMvc.perform(multipart("/reports")
                         .file(file)
                         .param("template", "statement")
                         .param("output", "CSV"))
@@ -91,13 +91,14 @@ class ReportControllerTest {
         when(reportService.generateReport(any(), eq("invalid"), eq(OutputFormat.HTML)))
                 .thenThrow(new IllegalArgumentException("No report handler found for template: invalid"));
 
-        mockMvc.perform(multipart("/api/reports")
+        mockMvc.perform(multipart("/reports")
                         .file(file)
                         .param("template", "invalid")
                         .param("output", "HTML"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.error").value("No report handler found for template: invalid"));
+                .andExpect(jsonPath("$.error").value("Invalid request parameters"))
+                .andExpect(jsonPath("$.message").value("No report handler found for template: invalid"));
     }
 
     @Test
@@ -107,7 +108,7 @@ class ReportControllerTest {
 
         when(reportService.getAvailableTemplates()).thenReturn(templates);
 
-        mockMvc.perform(get("/api/templates"))
+        mockMvc.perform(get("/templates"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.statement").isArray())
@@ -118,7 +119,7 @@ class ReportControllerTest {
     void testGetAvailableTemplatesWithError() throws Exception {
         when(reportService.getAvailableTemplates()).thenThrow(new RuntimeException("Service error"));
 
-        mockMvc.perform(get("/api/templates"))
+        mockMvc.perform(get("/templates"))
                 .andExpect(status().isInternalServerError());
     }
 }

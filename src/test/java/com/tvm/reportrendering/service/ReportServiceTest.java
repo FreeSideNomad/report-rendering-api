@@ -3,6 +3,7 @@ package com.tvm.reportrendering.service;
 import com.tvm.reportrendering.annotation.ReportName;
 import com.tvm.reportrendering.model.OutputFormat;
 import com.tvm.reportrendering.model.ReportOutput;
+import com.tvm.reportrendering.service.statement.StatementReport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
