@@ -46,7 +46,7 @@ class ReportRenderingApiIntegrationTest {
     @Test
     void testFullWorkflowIntegrationHtml() throws Exception {
         // Step 1: Get available templates
-        String templatesUrl = "http://localhost:" + port + "/templates";
+        String templatesUrl = "http://localhost:" + port + "/api/templates";
         ResponseEntity<Map> templatesResponse = restTemplate.getForEntity(templatesUrl, Map.class);
 
         assertEquals(HttpStatus.OK, templatesResponse.getStatusCode());
@@ -54,7 +54,7 @@ class ReportRenderingApiIntegrationTest {
         assertTrue(templatesResponse.getBody().containsKey("statement"));
 
         // Step 2: Generate HTML report
-        String reportsUrl = "http://localhost:" + port + "/reports";
+        String reportsUrl = "http://localhost:" + port + "/api/reports";
 
         ClassPathResource resource = new ClassPathResource("integration-test-data.json");
 
@@ -83,7 +83,7 @@ class ReportRenderingApiIntegrationTest {
 
     @Test
     void testFullWorkflowIntegrationCsv() throws Exception {
-        String reportsUrl = "http://localhost:" + port + "/reports";
+        String reportsUrl = "http://localhost:" + port + "/api/reports";
 
         ClassPathResource resource = new ClassPathResource("integration-test-data.json");
 
@@ -112,7 +112,7 @@ class ReportRenderingApiIntegrationTest {
 
     @Test
     void testFullWorkflowIntegrationPdf() throws Exception {
-        String reportsUrl = "http://localhost:" + port + "/reports";
+        String reportsUrl = "http://localhost:" + port + "/api/reports";
 
         ClassPathResource resource = new ClassPathResource("integration-test-data.json");
 
@@ -148,7 +148,7 @@ class ReportRenderingApiIntegrationTest {
 
     @Test
     void testErrorHandlingIntegration() {
-        String reportsUrl = "http://localhost:" + port + "/reports";
+        String reportsUrl = "http://localhost:" + port + "/api/reports";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -181,7 +181,7 @@ class ReportRenderingApiIntegrationTest {
     @Test
     void testCompleteDataProcessingPipelineIntegration() throws Exception {
         // This test simulates the complete pipeline from raw data to final report
-        String reportsUrl = "http://localhost:" + port + "/reports";
+        String reportsUrl = "http://localhost:" + port + "/api/reports";
 
         ClassPathResource resource = new ClassPathResource("integration-test-data.json");
 
@@ -246,7 +246,7 @@ class ReportRenderingApiIntegrationTest {
 
     @Test
     void testConcurrentRequestHandlingIntegration() throws Exception {
-        String reportsUrl = "http://localhost:" + port + "/reports";
+        String reportsUrl = "http://localhost:" + port + "/api/reports";
 
         // Test concurrent report generation
         int numberOfThreads = 3;

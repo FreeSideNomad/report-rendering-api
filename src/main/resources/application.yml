@@ -18,6 +18,26 @@ server:
   port: 8080
   servlet:
     context-path: /
+    
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    try-it-out-enabled: true
+    operations-sorter: method
+    tags-sorter: alpha
+  info:
+    title: Report Rendering API
+    description: REST API for generating financial reports in multiple formats (HTML, CSV, PDF)
+    version: 1.0.0
+    contact:
+      name: TVM Software
+      email: igormusic@tvmsoftware.com
+    license:
+      name: MIT License
 
 management:
   endpoints:

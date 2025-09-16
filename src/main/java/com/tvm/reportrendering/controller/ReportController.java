@@ -3,6 +3,14 @@ package com.tvm.reportrendering.controller;
 import com.tvm.reportrendering.model.OutputFormat;
 import com.tvm.reportrendering.model.ReportOutput;
 import com.tvm.reportrendering.service.ReportService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -19,14 +27,35 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "Reports", description = "API for generating financial reports in multiple formats")
 public class ReportController {
 
     private final ReportService reportService;
 
+    @Operation(
+            summary = "Generate a financial report",
+            description = "Upload a JSON file containing financial data and generate a report in the specified format (HTML, CSV, or PDF)"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Report generated successfully",
+                    content = {
+                            @Content(mediaType = "text/html", schema = @Schema(type = "string"), examples = @ExampleObject(name = "HTML Report", value = "<html>...</html>")),
+                            @Content(mediaType = "text/csv", schema = @Schema(type = "string"), examples = @ExampleObject(name = "CSV Report", value = "Account,Balance\nChequing,1000.00")),
+                            @Content(mediaType = "application/pdf", schema = @Schema(type = "string", format = "binary"))
+                    }
+            ),
+            @ApiResponse(responseCode = "400", description = "Invalid request parameters or file format"),
+            @ApiResponse(responseCode = "500", description = "Internal server error during report generation")
+    })
     @PostMapping(value = "/reports", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> generateReport(
+            @Parameter(description = "JSON file containing financial data", required = true)
             @RequestParam("file") MultipartFile file,
+            @Parameter(description = "Template name for the report", example = "statement", required = true)
             @RequestParam("template") String template,
+            @Parameter(description = "Output format for the report", required = true)
             @RequestParam("output") OutputFormat output) {
 
         log.info("Received report generation request: template={}, output={}, file={}",
@@ -70,6 +99,24 @@ public class ReportController {
         }
     }
 
+    @Operation(
+            summary = "Get available report templates",
+            description = "Retrieve a list of all available report templates and their supported output formats"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Templates retrieved successfully",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(
+                                    type = "object",
+                                    example = "{\"statement\": [\"HTML\", \"CSV\", \"PDF\"]}"
+                            )
+                    )
+            ),
+            @ApiResponse(responseCode = "500", description = "Internal server error while retrieving templates")
+    })
     @GetMapping("/templates")
     public ResponseEntity<Map<String, List<OutputFormat>>> getAvailableTemplates() {
         log.info("Received request for available templates");
