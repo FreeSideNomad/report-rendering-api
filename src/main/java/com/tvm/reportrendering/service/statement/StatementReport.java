@@ -1,18 +1,18 @@
-package com.tvm.reportrendering.service;
+package com.tvm.reportrendering.service.statement;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.tvm.reportrendering.annotation.ReportName;
-import com.tvm.reportrendering.model.Account;
-import com.tvm.reportrendering.model.StatementModel;
-import com.tvm.reportrendering.model.Transaction;
+import com.tvm.reportrendering.service.Report;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Comparator;
 
 @Slf4j
+@Component
 @ReportName("statement")
 public class StatementReport extends Report<StatementModel> {
 
@@ -24,7 +24,7 @@ public class StatementReport extends Report<StatementModel> {
     }
 
     @Override
-    protected StatementModel parse(InputStream inputStream) {
+    public StatementModel parse(InputStream inputStream) {
         log.debug("Parsing statement data from input stream");
 
         try {
@@ -35,11 +35,11 @@ public class StatementReport extends Report<StatementModel> {
 
             // Calculate total opening and closing balances
             BigDecimal totalOpeningBalance = statement.getAccounts().stream()
-                    .map(Account::getOpeningBalance)
+                    .map(StatementModel.Account::getOpeningBalance)
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
 
             BigDecimal totalClosingBalance = statement.getAccounts().stream()
-                    .map(Account::getClosingBalance)
+                    .map(StatementModel.Account::getClosingBalance)
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
 
             statement.setTotalOpeningBalance(totalOpeningBalance);
@@ -48,8 +48,8 @@ public class StatementReport extends Report<StatementModel> {
             // Sort transactions by date for CSV output
             statement.getAccounts().forEach(account ->
                     account.getTransactions().sort(
-                            Comparator.comparing(Transaction::getActionDate)
-                                    .thenComparing(Transaction::getValueDate)
+                            Comparator.comparing(StatementModel.Transaction::getActionDate)
+                                    .thenComparing(StatementModel.Transaction::getValueDate)
                     )
             );
 
@@ -62,7 +62,7 @@ public class StatementReport extends Report<StatementModel> {
         }
     }
 
-    private void calculateAccountBalances(Account account) {
+    private void calculateAccountBalances(StatementModel.Account account) {
         if (account.getTransactions().isEmpty()) {
             account.setOpeningBalance(BigDecimal.ZERO);
             account.setClosingBalance(BigDecimal.ZERO);
@@ -71,12 +71,12 @@ public class StatementReport extends Report<StatementModel> {
 
         // Sort transactions by date to ensure proper balance calculation
         account.getTransactions().sort(
-                Comparator.comparing(Transaction::getActionDate)
-                        .thenComparing(Transaction::getValueDate)
+                Comparator.comparing(StatementModel.Transaction::getActionDate)
+                        .thenComparing(StatementModel.Transaction::getValueDate)
         );
 
         // Set opening balance to the first transaction's balance minus its amount
-        Transaction firstTransaction = account.getTransactions().get(0);
+        StatementModel.Transaction firstTransaction = account.getTransactions().get(0);
         BigDecimal firstAmount = BigDecimal.ZERO;
         if (firstTransaction.getCreditAmount() != null) {
             firstAmount = firstTransaction.getCreditAmount();
@@ -86,7 +86,7 @@ public class StatementReport extends Report<StatementModel> {
         account.setOpeningBalance(firstTransaction.getBalance().subtract(firstAmount));
 
         // Set closing balance to the last transaction's balance
-        Transaction lastTransaction = account.getTransactions().get(account.getTransactions().size() - 1);
+        StatementModel.Transaction lastTransaction = account.getTransactions().get(account.getTransactions().size() - 1);
         account.setClosingBalance(lastTransaction.getBalance());
 
         log.debug("Calculated balances for account {}: opening={}, closing={}",

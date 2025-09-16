@@ -39,7 +39,7 @@ class ReportControllerTest {
         when(reportService.generateReport(any(), eq("statement"), eq(OutputFormat.HTML)))
                 .thenReturn(reportOutput);
 
-        mockMvc.perform(multipart("/api/reports")
+        mockMvc.perform(multipart("/reports")
                         .file(file)
                         .param("template", "statement")
                         .param("output", "HTML"))
@@ -57,13 +57,13 @@ class ReportControllerTest {
         when(reportService.generateReport(any(), eq("statement"), eq(OutputFormat.PDF)))
                 .thenReturn(reportOutput);
 
-        mockMvc.perform(multipart("/api/reports")
+        mockMvc.perform(multipart("/reports")
                         .file(file)
                         .param("template", "statement")
                         .param("output", "PDF"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/pdf"))
-                .andExpect(header().string("Content-Disposition", "form-data; name=\"attachment\"; filename=\"statement-report.pdf\""));
+                .andExpect(header().string("Content-Disposition", "attachment; filename=\"statement-report.pdf\""));
     }
 
     @Test
@@ -74,14 +74,14 @@ class ReportControllerTest {
         when(reportService.generateReport(any(), eq("statement"), eq(OutputFormat.CSV)))
                 .thenReturn(reportOutput);
 
-        mockMvc.perform(multipart("/api/reports")
+        mockMvc.perform(multipart("/reports")
                         .file(file)
                         .param("template", "statement")
                         .param("output", "CSV"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/csv"))
                 .andExpect(content().string("header1,header2\nvalue1,value2"))
-                .andExpect(header().string("Content-Disposition", "form-data; name=\"attachment\"; filename=\"statement-report.csv\""));
+                .andExpect(header().string("Content-Disposition", "attachment; filename=\"statement-report.csv\""));
     }
 
     @Test
@@ -91,13 +91,14 @@ class ReportControllerTest {
         when(reportService.generateReport(any(), eq("invalid"), eq(OutputFormat.HTML)))
                 .thenThrow(new IllegalArgumentException("No report handler found for template: invalid"));
 
-        mockMvc.perform(multipart("/api/reports")
+        mockMvc.perform(multipart("/reports")
                         .file(file)
                         .param("template", "invalid")
                         .param("output", "HTML"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.error").value("No report handler found for template: invalid"));
+                .andExpect(jsonPath("$.error").value("Invalid request parameters"))
+                .andExpect(jsonPath("$.message").value("No report handler found for template: invalid"));
     }
 
     @Test
@@ -107,7 +108,7 @@ class ReportControllerTest {
 
         when(reportService.getAvailableTemplates()).thenReturn(templates);
 
-        mockMvc.perform(get("/api/templates"))
+        mockMvc.perform(get("/templates"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.statement").isArray())
@@ -118,7 +119,7 @@ class ReportControllerTest {
     void testGetAvailableTemplatesWithError() throws Exception {
         when(reportService.getAvailableTemplates()).thenThrow(new RuntimeException("Service error"));
 
-        mockMvc.perform(get("/api/templates"))
+        mockMvc.perform(get("/templates"))
                 .andExpect(status().isInternalServerError());
     }
 }
