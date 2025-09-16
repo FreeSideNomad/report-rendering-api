@@ -14,9 +14,6 @@
             margin-bottom: 30px;
         }
 
-        .logo {
-            max-width: 200px;
-        }
 
         .statement-info {
             margin-bottom: 20px;
@@ -55,10 +52,16 @@
 
         .credit {
             color: green;
+            text-align: right;
         }
 
         .debit {
             color: red;
+            text-align: right;
+        }
+
+        .currency {
+            text-align: right;
         }
 
         .totals {
@@ -69,7 +72,6 @@
 </head>
 <body>
 <div class="header">
-    <img alt="RBC Logo" class="logo" src="/images/rbc-logo.png"/>
     <h1>Account Statement</h1>
 </div>
 
@@ -87,8 +89,8 @@
     </div>
 
     <div class="balance">
-        <p>Opening Balance: $<span th:text="${#numbers.formatDecimal(account.openingBalance, 0, 2)}">0.00</span></p>
-        <p>Closing Balance: $<span th:text="${#numbers.formatDecimal(account.closingBalance, 0, 2)}">0.00</span></p>
+        <p>Opening Balance: $<span th:text="${#numbers.formatDecimal(account.openingBalance, 1, 'COMMA', 2, 'POINT')}">0.00</span></p>
+        <p>Closing Balance: $<span th:text="${#numbers.formatDecimal(account.closingBalance, 1, 'COMMA', 2, 'POINT')}">0.00</span></p>
     </div>
 
     <h4>Transactions</h4>
@@ -112,24 +114,24 @@
             <td th:text="${transaction.transactionType}">Type</td>
             <td class="credit"
                 th:if="${transaction.creditAmount != null}"
-                th:text="'$' + ${#numbers.formatDecimal(transaction.creditAmount, 0, 2)}">$0.00
+                th:text="'$' + ${#numbers.formatDecimal(transaction.creditAmount, 1, 'COMMA', 2, 'POINT')}">$0.00
             </td>
             <td th:unless="${transaction.creditAmount != null}"></td>
             <td class="debit"
                 th:if="${transaction.debitAmount != null}"
-                th:text="'$' + ${#numbers.formatDecimal(transaction.debitAmount, 0, 2)}">$0.00
+                th:text="'$' + ${#numbers.formatDecimal(transaction.debitAmount, 1, 'COMMA', 2, 'POINT')}">$0.00
             </td>
             <td th:unless="${transaction.debitAmount != null}"></td>
-            <td th:text="'$' + ${#numbers.formatDecimal(transaction.balance, 0, 2)}">$0.00</td>
+            <td class="currency" th:text="'$' + ${#numbers.formatDecimal(transaction.balance, 1, 'COMMA', 2, 'POINT')}">$0.00</td>
         </tr>
         </tbody>
     </table>
 </div>
 
 <div class="totals">
-    <p>Total Opening Balance: $<span th:text="${#numbers.formatDecimal(model.totalOpeningBalance, 0, 2)}">0.00</span>
+    <p>Total Opening Balance: $<span th:text="${#numbers.formatDecimal(model.totalOpeningBalance, 1, 'COMMA', 2, 'POINT')}">0.00</span>
     </p>
-    <p>Total Closing Balance: $<span th:text="${#numbers.formatDecimal(model.totalClosingBalance, 0, 2)}">0.00</span>
+    <p>Total Closing Balance: $<span th:text="${#numbers.formatDecimal(model.totalClosingBalance, 1, 'COMMA', 2, 'POINT')}">0.00</span>
     </p>
 </div>
 </body>
