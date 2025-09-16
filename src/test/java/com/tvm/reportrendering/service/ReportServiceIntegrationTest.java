@@ -56,7 +56,7 @@ class ReportServiceIntegrationTest {
             assertTrue(htmlContent.contains("John Smith Checking Account"));
             assertTrue(htmlContent.contains("1234567890"));
             assertTrue(htmlContent.contains("Salary Deposit"));
-            assertTrue(htmlContent.contains("5000.00"));
+            assertTrue(htmlContent.contains("5,000.00"));
         }
     }
 

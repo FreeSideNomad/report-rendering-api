@@ -56,7 +56,7 @@ class ReportControllerIntegrationTest {
                 .andExpect(content().string(containsString("John Smith")))
                 .andExpect(content().string(containsString("1234567890")))
                 .andExpect(content().string(containsString("Salary Deposit")))
-                .andExpect(content().string(containsString("5000.00")));
+                .andExpect(content().string(containsString("5,000.00")));
     }
 
     @Test
