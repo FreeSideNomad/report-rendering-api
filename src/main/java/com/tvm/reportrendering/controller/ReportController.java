@@ -32,6 +32,13 @@ public class ReportController {
 
     private final ReportService reportService;
 
+    private String sanitizeForLogging(String input) {
+        if (input == null) {
+            return "null";
+        }
+        return input.replace('\r', '_').replace('\n', '_').replace('\t', '_');
+    }
+
     @Operation(
             summary = "Generate a financial report",
             description = "Upload a JSON file containing financial data and generate a report in the specified format (HTML, CSV, or PDF)"
@@ -61,11 +68,11 @@ public class ReportController {
             @RequestParam("language") String language) {
 
         log.info("Received report generation request: template={}, output={}, language={}, file={}",
-                template, output, language, file.getOriginalFilename());
+                sanitizeForLogging(template), output, sanitizeForLogging(language), sanitizeForLogging(file.getOriginalFilename()));
 
         // Validate language code format
         if (language == null || !language.matches("^[a-z]{2}$")) {
-            log.error("Invalid language code: {}", language);
+            log.error("Invalid language code: {}", sanitizeForLogging(language));
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(Map.of("error", "Invalid language code. Must be a two-letter ISO language code (e.g., en, fr, sr, hr)"));
         }

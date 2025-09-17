@@ -18,6 +18,13 @@ public class StatementReport extends Report<StatementModel> {
 
     private final ObjectMapper objectMapper;
 
+    private String sanitizeForLogging(String input) {
+        if (input == null) {
+            return "null";
+        }
+        return input.replace('\r', '_').replace('\n', '_').replace('\t', '_');
+    }
+
     public StatementReport() {
         this.objectMapper = new ObjectMapper();
         this.objectMapper.registerModule(new JavaTimeModule());
@@ -90,6 +97,6 @@ public class StatementReport extends Report<StatementModel> {
         account.setClosingBalance(lastTransaction.getBalance());
 
         log.debug("Calculated balances for account {}: opening={}, closing={}",
-                account.getAccountNumber(), account.getOpeningBalance(), account.getClosingBalance());
+                sanitizeForLogging(account.getAccountNumber()), account.getOpeningBalance(), account.getClosingBalance());
     }
 }
