@@ -3,6 +3,7 @@ package com.tvm.reportrendering.controller;
 import com.tvm.reportrendering.model.OutputFormat;
 import com.tvm.reportrendering.model.ReportOutput;
 import com.tvm.reportrendering.service.ReportService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -30,6 +31,14 @@ class ReportControllerTest {
 
     @MockBean
     private ReportService reportService;
+
+    @BeforeEach
+    void setUp() {
+        // Mock available templates for validation
+        Map<String, List<OutputFormat>> availableTemplates = new HashMap<>();
+        availableTemplates.put("statement", List.of(OutputFormat.HTML, OutputFormat.CSV, OutputFormat.PDF));
+        when(reportService.getAvailableTemplates()).thenReturn(availableTemplates);
+    }
 
     @Test
     void testGenerateReportHtml() throws Exception {
@@ -101,8 +110,7 @@ class ReportControllerTest {
                         .param("language", "en"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.error").value("Invalid request parameters"))
-                .andExpect(jsonPath("$.message").value("No report handler found for template: invalid"));
+                .andExpect(jsonPath("$.error").value("Template not allowed: invalid"));
     }
 
     @Test
@@ -138,7 +146,7 @@ class ReportControllerTest {
                         .param("language", "invalid"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.error").value("Invalid language code. Must be a two-letter ISO language code (e.g., en, fr, sr, hr)"));
+                .andExpect(jsonPath("$.error").value("Language code must be a two-letter lowercase code"));
     }
 
     @Test
