@@ -24,6 +24,13 @@ public class ReportService {
 
     private Map<String, Report<?>> reportHandlers = new HashMap<>();
 
+    private String sanitizeForLogging(String input) {
+        if (input == null) {
+            return "null";
+        }
+        return input.replace('\r', '_').replace('\n', '_').replace('\t', '_');
+    }
+
     @PostConstruct
     public void initializeReportHandlers() {
         log.info("Initializing report handlers");
@@ -43,11 +50,11 @@ public class ReportService {
     }
 
     public ReportOutput generateReport(InputStream inputStream, String templateName, OutputFormat outputFormat, String language) {
-        log.info("Generating report for template: {} with format: {} and language: {}", templateName, outputFormat, language);
+        log.info("Generating report for template: {} with format: {} and language: {}", sanitizeForLogging(templateName), outputFormat, sanitizeForLogging(language));
 
         Report<?> handler = reportHandlers.get(templateName);
         if (handler == null) {
-            log.error("No report handler found for template: {}", templateName);
+            log.error("No report handler found for template: {}", sanitizeForLogging(templateName));
             throw new IllegalArgumentException("No report handler found for template: " + templateName);
         }
 

@@ -23,15 +23,22 @@ public abstract class Report<T> {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    private String sanitizeForLogging(String input) {
+        if (input == null) {
+            return "null";
+        }
+        return input.replace('\r', '_').replace('\n', '_').replace('\t', '_');
+    }
+
     public ReportOutput process(InputStream inputStream, String templateName, OutputFormat outputFormat, String language) {
-        log.info("Processing report with template: {}, format: {} and language: {}", templateName, outputFormat, language);
+        log.info("Processing report with template: {}, format: {} and language: {}", sanitizeForLogging(templateName), outputFormat, sanitizeForLogging(language));
 
         try {
             T model = parse(inputStream);
             log.debug("Parsed model successfully");
 
             Map<String, String> labels = loadLanguageLabels(templateName, language);
-            log.debug("Loaded language labels for language: {}", language);
+            log.debug("Loaded language labels for language: {}", sanitizeForLogging(language));
 
             ReportOutput output = render(model, templateName, outputFormat, labels);
             log.info("Report processed successfully");
@@ -52,10 +59,10 @@ public abstract class Report<T> {
                 throw new IllegalArgumentException("Language file not found: " + languageFilePath);
             }
 
-            log.debug("Loading language file: {}", languageFilePath);
+            log.debug("Loading language file: {}", sanitizeForLogging(languageFilePath));
             return objectMapper.readValue(resource.getInputStream(), Map.class);
         } catch (Exception e) {
-            log.error("Error loading language file {}: {}", languageFilePath, e.getMessage());
+            log.error("Error loading language file {}: {}", sanitizeForLogging(languageFilePath), sanitizeForLogging(e.getMessage()));
             throw new RuntimeException("Failed to load language file: " + languageFilePath, e);
         }
     }
@@ -101,13 +108,13 @@ public abstract class Report<T> {
         try {
             headerContent = templateEngine.process(templateName + "/pdf_header", context);
         } catch (Exception e) {
-            log.debug("No header template found for {}", templateName);
+            log.debug("No header template found for {}", sanitizeForLogging(templateName));
         }
 
         try {
             footerContent = templateEngine.process(templateName + "/pdf_footer", context);
         } catch (Exception e) {
-            log.debug("No footer template found for {}", templateName);
+            log.debug("No footer template found for {}", sanitizeForLogging(templateName));
         }
 
         byte[] pdfContent = pdfService.generatePdf(htmlContent, headerContent, footerContent);
