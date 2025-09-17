@@ -128,8 +128,7 @@ class ReportControllerIntegrationTest {
                         .param("language", "en"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType("application/json"))
-                .andExpect(jsonPath("$.error").value("Invalid request parameters"))
-                .andExpect(jsonPath("$.message").value("No report handler found for template: invalid-template"));
+                .andExpect(jsonPath("$.error").value("Template not allowed: invalid-template"));
     }
 
     @Test
