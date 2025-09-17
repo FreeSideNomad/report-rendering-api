@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Comparator;
 
+import static com.tvm.reportrendering.util.SecurityUtils.sanitizeForLogging;
+
 @Slf4j
 @Component
 @ReportName("statement")
@@ -18,12 +20,6 @@ public class StatementReport extends Report<StatementModel> {
 
     private final ObjectMapper objectMapper;
 
-    private String sanitizeForLogging(String input) {
-        if (input == null) {
-            return "null";
-        }
-        return input.replace('\r', '_').replace('\n', '_').replace('\t', '_');
-    }
 
     public StatementReport() {
         this.objectMapper = new ObjectMapper();

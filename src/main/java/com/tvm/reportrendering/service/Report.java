@@ -12,6 +12,8 @@ import org.thymeleaf.context.Context;
 import java.io.InputStream;
 import java.util.Map;
 
+import static com.tvm.reportrendering.util.SecurityUtils.sanitizeForLogging;
+
 @Slf4j
 public abstract class Report<T> {
 
@@ -23,12 +25,6 @@ public abstract class Report<T> {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private String sanitizeForLogging(String input) {
-        if (input == null) {
-            return "null";
-        }
-        return input.replace('\r', '_').replace('\n', '_').replace('\t', '_');
-    }
 
     public ReportOutput process(InputStream inputStream, String templateName, OutputFormat outputFormat, String language) {
         log.info("Processing report with template: {}, format: {} and language: {}", sanitizeForLogging(templateName), outputFormat, sanitizeForLogging(language));

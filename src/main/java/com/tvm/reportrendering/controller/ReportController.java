@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import static com.tvm.reportrendering.util.SecurityUtils.sanitizeForLogging;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -32,12 +34,6 @@ public class ReportController {
 
     private final ReportService reportService;
 
-    private String sanitizeForLogging(String input) {
-        if (input == null) {
-            return "null";
-        }
-        return input.replace('\r', '_').replace('\n', '_').replace('\t', '_');
-    }
 
     @Operation(
             summary = "Generate a financial report",
