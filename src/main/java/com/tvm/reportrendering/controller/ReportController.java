@@ -26,6 +26,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import static com.tvm.reportrendering.util.SecurityUtils.sanitizeForLogging;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor

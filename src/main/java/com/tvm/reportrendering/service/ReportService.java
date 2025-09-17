@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.tvm.reportrendering.util.SecurityUtils.sanitizeForLogging;
+
 @Slf4j
 @Service
 public class ReportService {
@@ -24,12 +26,6 @@ public class ReportService {
 
     private Map<String, Report<?>> reportHandlers = new HashMap<>();
 
-    private String sanitizeForLogging(String input) {
-        if (input == null) {
-            return "null";
-        }
-        return input.replace('\r', '_').replace('\n', '_').replace('\t', '_');
-    }
 
     @PostConstruct
     public void initializeReportHandlers() {
