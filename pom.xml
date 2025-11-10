@@ -15,7 +15,7 @@
     <description>Spring Boot REST API for report rendering</description>
     <properties>
         <java.version>17</java.version>
-        <playwright.version>1.55.0</playwright.version>
+        <playwright.version>1.56.0</playwright.version>
         <lombok.version>1.18.28</lombok.version>
         <springdoc.version>2.8.11</springdoc.version>
     </properties>
